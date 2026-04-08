@@ -1,0 +1,78 @@
+<!-- ============ RESOURCE MONITORING DECODERS ============ -->
+
+<decoder name="resource_metrics">
+  <prematch>ossec: output: 'resource_metrics':</prematch>
+</decoder>
+
+<decoder name="resource_metrics">
+  <parent>resource_metrics</parent>
+  <regex offset="after_parent">(\S+) (\S+) (\S+) (\S+) (\S+)</regex>
+  <order>cpu_usage_%, memory_usage_%, disk_usage_%, load_1min, load_5min</order>
+</decoder>
+
+<decoder name="disk_metrics">
+  <prematch>ossec: output: 'disk_metrics':</prematch>
+</decoder>
+
+<decoder name="disk_metrics">
+  <parent>disk_metrics</parent>
+  <regex offset="after_parent">(\S+) (\S+)</regex>
+  <order>disk_used_gb, disk_free_gb</order>
+</decoder>
+
+<!-- ============ T-POT HONEYPOT DECODERS ============ -->
+
+<!-- COWRIE -->
+<decoder name="cowrie">
+  <prematch>{"eventid": "cowrie\.</prematch>
+</decoder>
+
+<!-- DIONAEA -->
+<decoder name="dionaea">
+  <prematch>{"origin": "dionaea</prematch>
+</decoder>
+
+<!-- HONEYTRAP -->
+<decoder name="honeytrap">
+  <prematch>{"type": "|{"remote_addr": "</prematch>
+</decoder>
+
+<!-- HERALDING -->
+<decoder name="heralding">
+  <prematch>{"auth_id": "</prematch>
+</decoder>
+
+<!-- WORDPOT -->
+<decoder name="wordpot">
+  <prematch>{"path": "|{"plugin": "</prematch>
+</decoder>
+
+<!-- CONPOT -->
+<decoder name="conpot">
+  <prematch>conpot|CONPOT</prematch>
+</decoder>
+<decoder name="conpot">
+  <parent>conpot</parent>
+  <regex>(\d+\.\d+\.\d+\.\d+):(\d+)</regex>
+  <order>src_ip, src_port</order>
+</decoder>
+
+<!-- MAILONEY -->
+<decoder name="mailoney">
+  <prematch>mailoney|MAILONEY</prematch>
+</decoder>
+<decoder name="mailoney">
+  <parent>mailoney</parent>
+  <regex>New connection from (\d+\.\d+\.\d+\.\d+):(\d+)</regex>
+  <order>src_ip, src_port</order>
+</decoder>
+
+<!-- REDIS -->
+<decoder name="redishoneypot">
+  <prematch>redishoneypot|redis-honeypot</prematch>
+</decoder>
+<decoder name="redishoneypot">
+  <parent>redishoneypot</parent>
+  <regex>connection from (\d+\.\d+\.\d+\.\d+)</regex>
+  <order>src_ip</order>
+</decoder>
